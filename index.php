@@ -48,7 +48,7 @@
                         <li>
                             <a href="#book">Contact</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <div class="pop-up-container">
                                 <div class="submit-btn">
                                     <button type="submit" onclick="openPopup()">Register
@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -472,11 +472,20 @@
                         <h1>Online <span class="booking-span">Booking</span></h1>
                     </div>
                     <?php 
-                        require_once "connection.php";
+                        include_once "connection.php";
                         extract($_POST);
                         if(isset($submit))
                         {
-                            $mysql = "INSERT"
+                            $mysql = " INSERT INTO `booking_form`(`full_name`,`email`,`date_time`,`destination`) VALUES ('$full_name','$email','$date_time','$destination')";
+
+                            if($con->query($mysql)==TRUE)
+                            {
+                                echo '<script> alert("Successfully Booked! We will get in touch with you soon!")</script>';
+                            }
+                            else
+                            {
+                                echo '<script>alert("Try to Book Again")</script>';
+                            }
                         }
                     ?>
                     <form action="" method="post">
@@ -490,7 +499,7 @@
                         </div>
                         <div class="third-form-flex">
                             <div class="submit-btn">
-                                <button type="submit">Submit</button>
+                                <button type="submit" name="submit">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -597,6 +606,25 @@
                 <div class="news-cnt">
                     <form action="" method="post" class="newsletter">
                         <input type="mail" required name="newsmail" placeholder="example@gmail.com">
+                        <?php
+
+                            include_once "connection.php";
+                            extract($_POST);
+                            if(isset($news_submit))
+                            {
+                                $new_sql = " INSERT INTO `newsletter`(`newsmail`) VALUES ('$newsmail')";
+
+                                if($con->query($new_sql))
+                                {
+                                    echo "<script> alert('Thanks for the subscription!')</script>";
+                                }
+                                else
+                                {
+                                    echo "<script>alert('Resubmit!')</script>";
+                                }
+                            }
+                        
+                        ?>
                         <button type="submit" name="news_submit">Submit</button>
                     </form>
                 </div>
